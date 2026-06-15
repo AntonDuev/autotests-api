@@ -41,7 +41,7 @@ class ExercisesClient(APIClient):
         :param query: Словарь с courseId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        self.get("/api/v1/exercises", params=query)
+        return self.get("/api/v1/exercises", params=query)
 
 
     def get_exercise_api(self, exercise_id: str) -> Response:
@@ -50,7 +50,7 @@ class ExercisesClient(APIClient):
         :param exercise_id: Идентификатор задания.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        self.get(f"/api/v1/exercises/{exercise_id}")
+        return self.get(f"/api/v1/exercises/{exercise_id}")
 
 
     def create_exercise_api(self, request: CreateExerciseBodyDict) -> Response:
@@ -59,7 +59,7 @@ class ExercisesClient(APIClient):
         :param request: Словарь с title, courseId, maxScore, minScore, orderIndex, description, estimatedTime
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        self.post("/api/v1/exercises", json=request)
+        return self.post("/api/v1/exercises", json=request)
 
 
 
@@ -70,7 +70,7 @@ class ExercisesClient(APIClient):
         :param request: Словарь с title, maxScore, minScore, orderIndex, description, estimatedTime
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        self.patch(f"/api/v1/exercises/{exercise_id}", json=request)
+        return self.patch(f"/api/v1/exercises/{exercise_id}", json=request)
 
 
 
@@ -80,4 +80,4 @@ class ExercisesClient(APIClient):
         :param exercise_id: Идентификатор задания.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        self.delete(f"/api/v1/exercises/{exercise_id}")
+        return self.delete(f"/api/v1/exercises/{exercise_id}")
