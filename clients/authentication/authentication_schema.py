@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field
-from pydantic import BaseModel, Field
 # Импортируем заранее созданный экземпляр класса Fake
 from tools.fakers import fake
 
