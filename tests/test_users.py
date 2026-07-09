@@ -16,12 +16,13 @@ from tools.fakers import fake
 @pytest.mark.parametrize(
     "email",
     [
-    fake.email(domain="mail.ru"),
-    fake.email(domain="gmail.com"),
-    fake.email(domain="example.com")
+        "mail.ru",
+        "gmail.com",
+        "example.com"
     ]
 )
-def test_create_user(email: str, public_users_client: PublicUsersClient):  # Используем фикстуру API клиента
+def test_create_user(email: str, public_users_client: PublicUsersClient):
+    email = fake.email(domain=email)
     request = CreateUserRequestSchema(email=email)
     response = public_users_client.create_user_api(request)
     response_data = CreateUserResponseSchema.model_validate_json(response.text)
