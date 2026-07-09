@@ -9,13 +9,20 @@ from tests.conftest import UserFixture
 from tools.assertions.base import assert_status_code
 from tools.assertions.schema import validate_json_schema
 from tools.assertions.users import assert_create_user_response, assert_get_user_response
-
+from tools.fakers import fake
 
 @pytest.mark.users
 @pytest.mark.regression
-def test_create_user(public_users_client: PublicUsersClient):  # Используем фикстуру API клиента
-    # Удалили инициализацию API клиента из теста
-    request = CreateUserRequestSchema()
+@pytest.mark.parametrize(
+    "email",
+    [
+    fake.email(domain="mail.ru"),
+    fake.email(domain="gmail.com"),
+    fake.email(domain="example.com")
+    ]
+)
+def test_create_user(email: str, public_users_client: PublicUsersClient):  # Используем фикстуру API клиента
+    request = CreateUserRequestSchema(email=email)
     response = public_users_client.create_user_api(request)
     response_data = CreateUserResponseSchema.model_validate_json(response.text)
 
@@ -32,5 +39,5 @@ def test_get_user_me(private_users_client: PrivateUsersClient, function_user: Us
     response_data = GetUserResponseSchema.model_validate_json(response.text)
 
     assert_status_code(response.status_code, HTTPStatus.OK)
-    assert_get_user_response(response_data.user, function_user.response.user)
+    assert_get_user_response(response_data, function_user.response)
     validate_json_schema(response.json(), response_data.model_json_schema())

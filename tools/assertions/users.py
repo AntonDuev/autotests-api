@@ -1,5 +1,6 @@
 from api_client_get_user import get_user_response, create_user_response
-from clients.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema, UserSchema
+from clients.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema, UserSchema, \
+    GetUserResponseSchema
 from tools.assertions.base import assert_equal
 
 
@@ -23,5 +24,5 @@ def assert_user(actual: UserSchema, expected: UserSchema):
     assert_equal(actual.first_name, expected.first_name, "first_name")
     assert_equal(actual.middle_name, expected.middle_name, "middle_name")
 
-def assert_get_user_response(get_user_response, create_user_response):
-    assert_user(get_user_response, create_user_response)
+def assert_get_user_response(get_user_response: GetUserResponseSchema, create_user_response: CreateUserResponseSchema):
+    assert_user(get_user_response.user, create_user_response.user)
